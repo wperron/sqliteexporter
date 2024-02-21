@@ -137,7 +137,8 @@ VALUES (
     ?, ?, ?, ?, json(?), ?
 )`
 
-func (e *sqliteExporter) ConsumeTraces(ctx context.Context, traces ptrace.Traces) error {
+func (e *sqliteExporter) ConsumeTraces(_ context.Context, traces ptrace.Traces) error {
+	ctx := context.Background()
 	tx, err := e.db.BeginTx(ctx, nil)
 	if err != nil {
 		return fmt.Errorf("failed to start transaction: %w", err)
