@@ -10,7 +10,7 @@ processors:
 exporters:
   debug:
   sqlite:
-    path: local.db
+    path: something.db
 
 service:
   pipelines:
