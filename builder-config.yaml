@@ -3,7 +3,7 @@ dist:
   name: otelcol-dev
   description: Basic Otel Collector for development
   otelcol_version: 0.95.0
-  version: 0.2.0-rc1
+  version: 0.2.0-rc2
   output_path: ./bin/otelcol-dev
 
 exporters:
@@ -13,7 +13,7 @@ exporters:
   - gomod:
       go.opentelemetry.io/collector/exporter/otlpexporter v0.95.0
   - gomod:
-      go.wperron.io/sqliteexporter v0.2.0-rc1 # use the exporter from this repo
+      go.wperron.io/sqliteexporter v0.2.0-rc2 # use the exporter from this repo
 
 processors:
   - gomod:
@@ -22,3 +22,9 @@ processors:
 receivers:
   - gomod:
       go.opentelemetry.io/collector/receiver/otlpreceiver v0.95.0
+
+replaces:
+# a list of "replaces" directives that will be part of the resulting go.mod
+
+# This replace statement is necessary since the newly added component is not found/published to GitHub yet. Replace references to GitHub path with the local path
+- go.wperron.io/sqliteexporter => /home/wperron/github.com/wperron/sqliteexporter

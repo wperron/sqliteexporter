@@ -9,7 +9,6 @@ require (
 	go.opentelemetry.io/collector/component v0.95.0
 	go.opentelemetry.io/collector/consumer v0.95.0
 	go.opentelemetry.io/collector/exporter v0.95.0
-	go.uber.org/zap v1.26.0
 )
 
 require (
@@ -34,6 +33,7 @@ require (
 	go.opentelemetry.io/otel/exporters/prometheus v0.45.2 // indirect
 	go.opentelemetry.io/otel/sdk/metric v1.23.1 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
+	go.uber.org/zap v1.26.0 // indirect
 )
 
 require (
