@@ -16,6 +16,7 @@ import (
 	"go.opentelemetry.io/collector/exporter"
 	"go.opentelemetry.io/collector/exporter/exporterhelper"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
+	"go.uber.org/zap"
 
 	"go.wperron.io/sqliteexporter/internal/metadata"
 )
@@ -44,7 +45,7 @@ func createTracesExporter(
 ) (exporter.Traces, error) {
 	conf := cfg.(*Config)
 
-	se, err := newSqliteExporter(conf)
+	se, err := newSqliteExporter(set.Logger, conf)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create sqlite exporter: %w", err)
 	}
@@ -58,7 +59,7 @@ func createTracesExporter(
 	)
 }
 
-func newSqliteExporter(cfg *Config) (*sqliteExporter, error) {
+func newSqliteExporter(logger *zap.Logger, cfg *Config) (*sqliteExporter, error) {
 	db, err := sql.Open("sqlite3", cfg.Path)
 	if err != nil {
 		return nil, fmt.Errorf("couldn't open sqlite3 database: %w", err)
@@ -73,12 +74,13 @@ func newSqliteExporter(cfg *Config) (*sqliteExporter, error) {
 	}
 
 	return &sqliteExporter{
-		db: db,
+		db:     db,
+		logger: logger,
 	}, nil
 }
 
 func NewSqliteSDKTraceExporter(cfg *Config) (sdktrace.SpanExporter, error) {
-	return newSqliteExporter(cfg)
+	return newSqliteExporter(zap.NewNop(), cfg)
 }
 
 func NewSqliteSDKTraceExporterWithDB(db *sql.DB) (sdktrace.SpanExporter, error) {
@@ -87,7 +89,8 @@ func NewSqliteSDKTraceExporterWithDB(db *sql.DB) (sdktrace.SpanExporter, error) 
 	}
 
 	return &sqliteExporter{
-		db: db,
+		db:     db,
+		logger: zap.NewNop(),
 	}, nil
 }
 

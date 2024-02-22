@@ -13,6 +13,7 @@ import (
 	"go.opentelemetry.io/collector/pdata/pcommon"
 	"go.opentelemetry.io/collector/pdata/ptrace"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
+	"go.uber.org/zap"
 	"go.wperron.io/sqliteexporter/internal/transform"
 )
 
@@ -24,6 +25,10 @@ var _ component.Component = &sqliteExporter{}
 
 type sqliteExporter struct {
 	db *sql.DB
+
+	// Logger that the factory can use during creation and can pass to the created
+	// component to be used later as well.
+	logger *zap.Logger
 }
 
 // DO NOT CHANGE: any modification will not be backwards compatible and
