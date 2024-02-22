@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"sync"
 	"time"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -23,6 +24,7 @@ var _ sdktrace.SpanExporter = &sqliteExporter{}
 var _ component.Component = &sqliteExporter{}
 
 type sqliteExporter struct {
+	mu *sync.Mutex
 	db *sql.DB
 }
 
@@ -137,8 +139,11 @@ VALUES (
     ?, ?, ?, ?, json(?), ?
 )`
 
-func (e *sqliteExporter) ConsumeTraces(_ context.Context, traces ptrace.Traces) error {
-	ctx := context.Background()
+func (e *sqliteExporter) ConsumeTraces(ctx context.Context, traces ptrace.Traces) error {
+	// ensure only one batch can be written at once
+	e.mu.Lock()
+	defer e.mu.Unlock()
+
 	tx, err := e.db.BeginTx(ctx, nil)
 	if err != nil {
 		return fmt.Errorf("failed to start transaction: %w", err)

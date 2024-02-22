@@ -3,7 +3,7 @@ dist:
   name: otelcol-dev
   description: Basic Otel Collector for development
   otelcol_version: 0.95.0
-  version: 0.1.2
+  version: 0.2.0-rc1
   output_path: ./bin/otelcol-dev
 
 exporters:
@@ -13,7 +13,7 @@ exporters:
   - gomod:
       go.opentelemetry.io/collector/exporter/otlpexporter v0.95.0
   - gomod:
-      go.wperron.io/sqliteexporter v0.1.2 # use the exporter from this repo
+      go.wperron.io/sqliteexporter v0.2.0-rc1 # use the exporter from this repo
 
 processors:
   - gomod:
