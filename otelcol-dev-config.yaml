@@ -4,8 +4,8 @@ receivers:
       grpc:
       http:
 
-processors:
-  batch:
+# processors:
+#   batch:
 
 exporters:
   debug:
@@ -16,5 +16,5 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [batch]
+      # processors: [batch]
       exporters: [debug, sqlite]

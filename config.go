@@ -33,7 +33,7 @@ func (cfg *Config) Unmarshal(componentParser *confmap.Conf) error {
 		return errors.New("empty config for sqlite exporter")
 	}
 
-	if err := componentParser.Unmarshal(cfg, confmap.WithIgnoreUnused()); err != nil {
+	if err := componentParser.Unmarshal(cfg); err != nil {
 		return err
 	}
 

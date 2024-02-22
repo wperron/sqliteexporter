@@ -7,7 +7,6 @@ import (
 	"embed"
 	"errors"
 	"fmt"
-	"sync"
 
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/sqlite3"
@@ -74,7 +73,6 @@ func newSqliteExporter(cfg *Config) (*sqliteExporter, error) {
 	}
 
 	return &sqliteExporter{
-		mu: &sync.Mutex{},
 		db: db,
 	}, nil
 }
